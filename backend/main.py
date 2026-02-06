@@ -7,7 +7,8 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://rag-chat-llm.vercel.app"],  # replace later with Vercel URL or '*' in local
+    allow_origins=["https://rag-chat-llm.vercel.app",
+                  "https://rag-chat-p28u1j85t-feliciasharons-projects.vercel.app"],  # replace later with Vercel URL or '*' in local
     allow_methods=["*"],
     allow_headers=["*"],
 )
