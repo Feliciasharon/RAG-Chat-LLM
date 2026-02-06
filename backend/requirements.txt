@@ -5,9 +5,9 @@ uvicorn
 # LangChain (modular)
 langchain
 langchain-community
-langchain-openai
+#langchain-openai
 langchain-text-splitters
-langchain-ollama
+#langchain-ollama
 
 # Vector DB
 faiss-cpu
@@ -15,8 +15,6 @@ faiss-cpu
 # PDF parsing
 pypdf
 
-# OpenAI
-openai
 
 # Env
 python-dotenv
