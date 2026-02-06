@@ -90,38 +90,40 @@ load_dotenv()
 LLM_MODE = os.getenv("LLM_MODE", "local")
 
 # -----------------------------
-# Embeddings
-# -----------------------------
-from langchain_ollama import OllamaEmbeddings
-embeddings = OllamaEmbeddings(model="nomic-embed-text")
-
-vectorstore = FAISS.load_local(
-    "vectorstore",
-    embeddings,
-    allow_dangerous_deserialization=True
-)
-
-retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
-
-PROMPT = PromptTemplate(
-    input_variables=["context", "question"],
-    template="""
-You are answering questions strictly using the resume content below.
-
-Resume:
-{context}
-
-Question:
-{question}
-
-Answer:
-"""
-)
-
-# -----------------------------
 # LOCAL MODE — Ollama
 # -----------------------------
 if LLM_MODE == "local":
+    
+    # -----------------------------
+    # Embeddings
+    # -----------------------------
+    from langchain_ollama import OllamaEmbeddings
+    embeddings = OllamaEmbeddings(model="nomic-embed-text")
+    
+    vectorstore = FAISS.load_local(
+        "vectorstore",
+        embeddings,
+        allow_dangerous_deserialization=True
+    )
+    
+    retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
+    
+    PROMPT = PromptTemplate(
+        input_variables=["context", "question"],
+        template="""
+    You are answering questions strictly using the resume content below.
+    
+    Resume:
+    {context}
+    
+    Question:
+    {question}
+    
+    Answer:
+    """
+    )
+    
+
     from langchain_ollama import ChatOllama
     llm = ChatOllama(model="llama3", temperature=0)
 
