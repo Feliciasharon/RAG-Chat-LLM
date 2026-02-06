@@ -11,10 +11,16 @@ function App() {
     if (!query) return;
 
     setLoading(true);
-    const res = await askQuestion(query);
-    setAnswer(res.answer);
-    //setSources(res.sources);
-    setLoading(false);
+    try {
+      const res = await askQuestion(query);
+      setAnswer(res.answer ?? "No answer returned.");
+      // setSources(res.sources ?? []);
+    } catch (error) {
+        console.error("Ask failed:", error);
+        setAnswer("Backend is waking up. Please try again in a moment.");
+    } finally {
+        setLoading(false); // 🔑 ALWAYS stop spinner
+    }
   };
 
   return (
