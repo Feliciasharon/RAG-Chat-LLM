@@ -1,0 +1,27 @@
+# FastAPI
+fastapi
+uvicorn
+
+# LangChain (modular)
+langchain
+langchain-community
+langchain-openai
+langchain-text-splitters
+langchain-ollama
+
+# Vector DB
+faiss-cpu
+
+# PDF parsing
+pypdf
+
+# OpenAI
+openai
+
+# Env
+python-dotenv
+
+# Core
+numpy
+SQLAlchemy
+tenacity
