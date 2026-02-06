@@ -87,7 +87,7 @@ from langchain_core.prompts import PromptTemplate
 
 load_dotenv()
 
-LLM_MODE = os.getenv("LLM_MODE", "local")
+LLM_MODE = os.getenv("LLM_MODE", "dev")
 
 # -----------------------------
 # LOCAL MODE — Ollama
@@ -130,25 +130,30 @@ if LLM_MODE == "local":
 # -----------------------------
 # DEMO MODE — Safe fallback
 # -----------------------------
-def demo_llm_answer(context, question):
+def demo_llm_answer():
     return "This is a demo deployment. Please run the app locally to see full AI-powered responses."
 
 # -----------------------------
 # RAG function
 # -----------------------------
 def ask_question(question: str):
-    docs = retriever.invoke(question)
-    context = "\n\n".join(d.page_content for d in docs)
 
     if LLM_MODE == "local":
+        docs = retriever.invoke(question)
+        context = "\n\n".join(d.page_content for d in docs)
         response = llm.invoke(
             PROMPT.format(context=context, question=question)
         )
         answer = response.content
+        
+        return {
+            "answer": answer,
+            "sources": [d.metadata.get("page", "unknown") for d in docs]
+        }
+    
     else:
-        answer = demo_llm_answer(context, question)
+        answer = demo_llm_answer()
 
-    return {
-        "answer": answer,
-        "sources": [d.metadata.get("page", "unknown") for d in docs]
-    }
+        return {
+            "answer": answer
+        }
