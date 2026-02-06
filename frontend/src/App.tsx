@@ -13,7 +13,7 @@ function App() {
     setLoading(true);
     const res = await askQuestion(query);
     setAnswer(res.answer);
-    setSources(res.sources);
+    //setSources(res.sources);
     setLoading(false);
   };
 
