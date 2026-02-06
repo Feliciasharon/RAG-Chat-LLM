@@ -87,17 +87,25 @@ def ingest():
 
     chunks = splitter.split_documents(documents)
 
+
     # Mock embeddings to avoid OpenAI + tiktoken issues
     '''from mock_embeddings import FakeEmbeddings
     embeddings = FakeEmbeddings()'''
 
-    from langchain_ollama import OllamaEmbeddings
-    
-    def get_embeddings():
-        return OllamaEmbeddings(
-            model="nomic-embed-text"
-        )
-    embeddings = get_embeddings()
+    # -----------------------------
+    # LOCAL MODE — Ollama
+    # -----------------------------
+    if LLM_MODE == "local":
+        from langchain_ollama import OllamaEmbeddings
+        
+        def get_embeddings():
+            return OllamaEmbeddings(
+                model="nomic-embed-text"
+            )
+        embeddings = get_embeddings()
+    else:
+        from mock_embeddings import FakeEmbeddings
+        embeddings = FakeEmbeddings()
 
     vectorstore = FAISS.from_documents(chunks, embeddings)
     vectorstore.save_local("vectorstore")
